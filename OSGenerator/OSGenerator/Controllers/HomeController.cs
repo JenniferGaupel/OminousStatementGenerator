@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using OSGenerator.Models;
 
 namespace OSGenerator.Controllers
 {
@@ -10,14 +13,24 @@ namespace OSGenerator.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            Root ominousStatement = new Root();
+            string jsonResult;
+
+            using (StreamReader streamReader = new StreamReader("C:\\dev\\OminousStatementGenerator\\OSGenerator\\OSGenerator\\Data\\statements.json"))
+            {
+                jsonResult = streamReader.ReadToEnd();
+            }
+
+            ominousStatement = JsonConvert.DeserializeObject<Root>(jsonResult);
+
+            return View(ominousStatement);
         }
 
-        public ActionResult OSGenerate()
+        public string OSGenerate()
         {
-            ViewBag.Message = "Your ominous statement here";
+            //ViewBag.Message = "Your ominous statement here";
 
-            return View();
+            return "Your ominous statement here";
         }
     }
 }
